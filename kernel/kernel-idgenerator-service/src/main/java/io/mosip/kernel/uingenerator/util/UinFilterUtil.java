@@ -170,7 +170,16 @@ public class UinFilterUtil {
 				|| regexFilter(id, conjugativeEvenDigitsLimitPattern)
 				|| firstAndLastDigitsValidation(id, digitsGroupLimit)
 				|| firstAndLastDigitsReverseValidation(id, reverseDigitsGroupLimit) || restrictedAdminFilter(id)
-				|| validateNotStartWith(id) || validateLength(id) || restrictedCyclicNumFilter(id)) && regexFilter(id,seperatorPattern);
+				|| validateNotStartWith(id) || validateLength(id) || restrictedCyclicNumFilter(id));
+	}
+
+	/**
+	 * checking UIN Generate Pattern is correct
+	 * @param id
+	 * @return
+	 */
+	public boolean checkGeneratePatternIsPresent(String id){
+		return regexFilter(id,seperatorPattern);
 	}
 
 	/**

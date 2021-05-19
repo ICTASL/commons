@@ -96,7 +96,7 @@ public class UinGeneratorImpl implements UinGenerator {
 		uinWriter.setSession();
 		while (uinCount < noOfUINToGenerate) {
 			String generatedUIN = generateSingleId(generatedIdLength, lowerBound, upperBound);
-			if (uinFilterUtils.isValidId(generatedUIN) && !uinService.uinExist(generatedUIN)) {
+			if (uinFilterUtils.isValidId(generatedUIN) && uinFilterUtils.checkGeneratePatternIsPresent(generatedUIN) && !uinService.uinExist(generatedUIN)) {
 				UinEntity uinBean = new UinEntity(generatedUIN, uinDefaultStatus);
 				metaDataUtil.setCreateMetaData(uinBean);
 				// try {

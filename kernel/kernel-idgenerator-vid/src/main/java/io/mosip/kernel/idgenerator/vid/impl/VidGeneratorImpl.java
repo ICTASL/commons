@@ -72,7 +72,7 @@ public class VidGeneratorImpl implements VidGenerator<String> {
 	@Override
 	public String generateId() {
 		String generatedVid = generateRandomId();
-		while (!vidFilterUtils.isValidId(generatedVid) || generatedVid.contains(" ")) {
+		while ((!vidFilterUtils.isValidId(generatedVid) || generatedVid.contains(" ")) && vidFilterUtils.checkGeneratePatternIsPresent(generatedVid)) {
 			generatedVid = generateRandomId();
 		}
 		return generatedVid;

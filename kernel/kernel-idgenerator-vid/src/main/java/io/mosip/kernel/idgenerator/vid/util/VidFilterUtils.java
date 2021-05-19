@@ -138,7 +138,16 @@ public class VidFilterUtils {
 	 */
 	public boolean isValidId(String id) {
 		return !(sequenceFilter(id) || regexFilter(id, repeatingPattern) || regexFilter(id, repeatingBlockPattern)
-				|| validateNotStartWith(id) || validateIdLength(id) || restrictedAdminFilter(id)) && regexFilter(id,seperatorPattern);
+				|| validateNotStartWith(id) || validateIdLength(id) || restrictedAdminFilter(id));
+	}
+
+	/**
+	 * checking VIN Generate Pattern is correct
+	 * @param id
+	 * @return
+	 */
+	public boolean checkGeneratePatternIsPresent(String id){
+		return regexFilter(id,seperatorPattern);
 	}
 
 	/**
