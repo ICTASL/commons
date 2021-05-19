@@ -140,14 +140,23 @@ public class UinFilterUtil {
 	 */
 	private Pattern conjugativeEvenDigitsLimitPattern = null;
 
+	/*Starts and ends in a digit
+	Contains at least one dash in the middle
+	after the first digit and before the dash there's zero or more [0-9,-] characters
+	between the dash and the last digit there's zero or more [0-9,-] characters*/
+
+	private Pattern seperatorPattern = null;
+
 	@PostConstruct
 	public void initializeRegEx() {
 		String repeatingRegEx = "(\\d)\\d{0," + (repeatingLimit - 1) + "}\\1";
 		String repeatingBlockRegEx = "(\\d{" + repeatingBlockLimit + ",}).*?\\1";
 		String conjugativeEvenDigitsLimitRegEx = "[2468]{" + conjugativeEvenDigitsLimit + "}";
+		String seperatorRegEx = "[0-9][0-9,-]*-[0-9,-]*[0-9]";
 		repeatingPattern = Pattern.compile(repeatingRegEx);
 		repeatingBlockPattern = Pattern.compile(repeatingBlockRegEx);
 		conjugativeEvenDigitsLimitPattern = Pattern.compile(conjugativeEvenDigitsLimitRegEx);
+		seperatorPattern = Pattern.compile(seperatorRegEx);
 	}
 
 	/**
@@ -161,11 +170,11 @@ public class UinFilterUtil {
 				|| regexFilter(id, conjugativeEvenDigitsLimitPattern)
 				|| firstAndLastDigitsValidation(id, digitsGroupLimit)
 				|| firstAndLastDigitsReverseValidation(id, reverseDigitsGroupLimit) || restrictedAdminFilter(id)
-				|| validateNotStartWith(id) || validateLength(id) || restrictedCyclicNumFilter(id));
+				|| validateNotStartWith(id) || validateLength(id) || restrictedCyclicNumFilter(id)) && regexFilter(id,seperatorPattern);
 	}
 
 	/**
-	 * Checks the input id for {@link #restrictedNumbers} filter
+	 * Checks the input id for {@link #//restrictedNumbers} filter
 	 * 
 	 * @param id The input id to validate
 	 * @return true if the id matches the filter
@@ -175,7 +184,7 @@ public class UinFilterUtil {
 	}
 
 	/**
-	 * Checks the input id for {@link #SEQUENCE_LIMIT} filter
+	 * Checks the input id for {@link #//SEQUENCE_LIMIT} filter
 	 * 
 	 * @param id The input id to validate
 	 * @return true if the id matches the filter
@@ -254,7 +263,7 @@ public class UinFilterUtil {
 	 *         false
 	 */
 	private boolean validateLength(String id) {
-		return id.length() != uinLength;
+		return id.replace("-", "" ).trim().length() != uinLength;
 	}
 
 	/**

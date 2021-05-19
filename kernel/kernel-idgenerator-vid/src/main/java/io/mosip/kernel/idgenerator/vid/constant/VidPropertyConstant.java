@@ -32,4 +32,9 @@ public enum VidPropertyConstant {
 	public String getProperty() {
 		return property;
 	}
+
+	/**
+	 * VIN pattern customization index
+	 */
+	public static final Integer ID_GROUP_DIGIT_LIMIT = 4;
 }

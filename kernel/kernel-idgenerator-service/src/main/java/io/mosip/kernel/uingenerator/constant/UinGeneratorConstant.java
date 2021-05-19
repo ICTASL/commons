@@ -183,4 +183,9 @@ public final class UinGeneratorConstant {
 	public static final String SIGNING_ENABLE = "mosip.kernel.uin.response-signing-enable";
 
 	public static final String GET_EXECUTOR_POOL_ENABLE = "mosip.kernel.uin.get_executor_pool";
+
+	/**
+	 * UNI pattern customization index
+	 */
+	public static final Integer ID_GROUP_DIGIT_LIMIT = 4;
 }

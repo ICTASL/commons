@@ -81,7 +81,7 @@ public class VidGeneratorImpl implements VidGenerator<String> {
 	/**
 	 * Generates a id and then generate checksum
 	 * 
-	 * @param generatedIdLength The length of id to generate
+	 * @param //generatedIdLength The length of id to generate
 	 * @return the VId with checksum
 	 */
 	private String generateRandomId() {
@@ -101,15 +101,39 @@ public class VidGeneratorImpl implements VidGenerator<String> {
 	/**
 	 * Appends a checksum to generated id
 	 * 
-	 * @param generatedIdLength The length of id
-	 * @param generatedID       The generated id
+	 * @param //generatedIdLength The length of id
+	 * @param //generatedID       The generated id
 	 * @param verhoeffDigit     The checksum to append
 	 * @return VId with checksum
 	 */
 	private String appendChecksum(String generatedVId, String verhoeffDigit) {
 		StringBuilder vidSb = new StringBuilder();
 		vidSb.setLength(vidLength);
-		return vidSb.insert(0, generatedVId).insert(generatedVId.length(), verhoeffDigit).toString().trim();
+		return generatedSingleIdFormat(vidSb.insert(0, generatedVId).insert(generatedVId.length(), verhoeffDigit).toString().trim());
+	}
+
+	/**
+	 * Generate format for VIN xxxx-xxxx
+	 * @param generatedID
+	 * @return
+	 */
+	private String generatedSingleIdFormat(String generatedID) {
+		StringBuilder formateGeneratedID = new StringBuilder();
+		int generatedIdModuleValue = Integer.parseInt(String.valueOf(generatedID.length())) % 4;
+		if (generatedIdModuleValue == 0){
+			try {
+				for(int i=0; i < generatedID.length()/VidPropertyConstant.ID_GROUP_DIGIT_LIMIT; i++)
+				{
+					formateGeneratedID.append(generatedID.substring(VidPropertyConstant.ID_GROUP_DIGIT_LIMIT*i, VidPropertyConstant.ID_GROUP_DIGIT_LIMIT*(i+1)).concat("-"));
+				}
+			}catch (StringIndexOutOfBoundsException e){
+				e.getStackTrace();
+			}
+
+		}else {
+			new StringBuilder().toString();
+		}
+		return formateGeneratedID.deleteCharAt(formateGeneratedID.length()-1).toString().trim();
 	}
 
 }

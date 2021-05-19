@@ -136,7 +136,31 @@ public class UinGeneratorImpl implements UinGenerator {
 	private String appendChecksum(int generatedIdLength, String generatedID, String verhoeffDigit) {
 		StringBuilder uinStringBuilder = new StringBuilder();
 		uinStringBuilder.setLength(uinLength);
-		return uinStringBuilder.insert(0, generatedID).insert(generatedID.length(), verhoeffDigit).toString().trim();
+		return generatedSingleIdFormat(uinStringBuilder.insert(0, generatedID).insert(generatedID.length(), verhoeffDigit).toString().trim());
+	}
+
+	/**
+	 * Generate format for UIN xxxx-xxxx
+	 * @param generatedID
+	 * @return
+	 */
+	private String generatedSingleIdFormat(String generatedID) {
+		StringBuilder formateGeneratedID = new StringBuilder();
+		int generatedIdModuleValue = Integer.parseInt(String.valueOf(generatedID.length())) % 4;
+		if (generatedIdModuleValue == 0){
+			try {
+				for(int i=0; i < generatedID.length()/UinGeneratorConstant.ID_GROUP_DIGIT_LIMIT; i++)
+				{
+					formateGeneratedID.append(generatedID.substring(UinGeneratorConstant.ID_GROUP_DIGIT_LIMIT*i, UinGeneratorConstant.ID_GROUP_DIGIT_LIMIT*(i+1)).concat("-"));
+				}
+			}catch (StringIndexOutOfBoundsException e){
+				e.getStackTrace();
+			}
+
+		}else {
+			new StringBuilder().toString();
+		}
+		return formateGeneratedID.deleteCharAt(formateGeneratedID.length()-1).toString().trim();
 	}
 
 }

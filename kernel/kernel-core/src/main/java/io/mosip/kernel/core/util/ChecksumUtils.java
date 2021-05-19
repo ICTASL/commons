@@ -55,13 +55,15 @@ public final class ChecksumUtils {
 	/**
 	 * Validates that an entered number is Verhoeff checksum compliant. Make sure
 	 * the check digit is the last one.
+	 * Remove the hyphen and make UNI as a digit
 	 * 
 	 * @param num The numeric string data for Verhoeff checksum compliance check.
 	 * @return true if the provided number is Verhoeff checksum compliant.
 	 */
 	public static boolean validateChecksum(String num) {
+		String numReformated = num.replace("-", "" ).trim();
 		int c = 0;
-		int[] myArray = stringToReversedIntArray(num);
+		int[] myArray = stringToReversedIntArray(numReformated);
 		for (int i = 0; i < myArray.length; i++) {
 			c = d[c][p[(i % 8)][myArray[i]]];
 		}

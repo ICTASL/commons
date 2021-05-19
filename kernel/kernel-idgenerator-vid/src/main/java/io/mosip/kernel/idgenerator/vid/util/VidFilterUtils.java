@@ -79,6 +79,13 @@ public class VidFilterUtils {
 	 */
 	private Pattern repeatingBlockPattern = null;
 
+	/*Starts and ends in a digit
+	Contains at least one dash in the middle
+	after the first digit and before the dash there's zero or more [0-9,-] characters
+	between the dash and the last digit there's zero or more [0-9,-] characters*/
+
+	private Pattern seperatorPattern = null;
+
 	@PostConstruct
 	public void initializeRegEx() {
 
@@ -116,6 +123,9 @@ public class VidFilterUtils {
 			String repeatingBlockRegEx = "(\\d{" + repeatingBlockLimit + ",}).*?\\1";
 			repeatingBlockPattern = Pattern.compile(repeatingBlockRegEx);
 		}
+
+		String seperatorRegEx = "[0-9][0-9,-]*-[0-9,-]*[0-9]";
+		seperatorPattern = Pattern.compile(seperatorRegEx);
 	}
 
 	/**
@@ -128,11 +138,11 @@ public class VidFilterUtils {
 	 */
 	public boolean isValidId(String id) {
 		return !(sequenceFilter(id) || regexFilter(id, repeatingPattern) || regexFilter(id, repeatingBlockPattern)
-				|| validateNotStartWith(id) || validateIdLength(id) || restrictedAdminFilter(id));
+				|| validateNotStartWith(id) || validateIdLength(id) || restrictedAdminFilter(id)) && regexFilter(id,seperatorPattern);
 	}
 
 	/**
-	 * Checks the input id for {@link #restrictedNumbers} filter
+	 * Checks the input id for {@link #//restrictedNumbers} filter
 	 * 
 	 * @param id The input id to validate
 	 * @return true if the id matches the filter
@@ -142,7 +152,7 @@ public class VidFilterUtils {
 	}
 
 	/**
-	 * Checks the input id for {@link #SEQUENCE_LIMIT} filter
+	 * Checks the input id for {@link #//SEQUENCE_LIMIT} filter
 	 * 
 	 * @param id The input id to validate
 	 * @return true if the id matches the filter
@@ -188,6 +198,6 @@ public class VidFilterUtils {
 	}
 
 	private boolean validateIdLength(String id) {
-		return (id.length() != vidLength);
+		return (id.replace("-", "" ).trim().length() != vidLength);
 	}
 }
