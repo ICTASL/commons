@@ -158,7 +158,15 @@ public class UinGeneratorImpl implements UinGenerator {
 			}
 
 		}else {
-			new StringBuilder().toString();
+			try {
+				for(int i=0; i <= generatedID.length()/UinGeneratorConstant.ID_GROUP_DIGIT_LIMIT; i++)
+				{
+					int end = UinGeneratorConstant.ID_GROUP_DIGIT_LIMIT * (i + 1) > generatedID.length() ? generatedID.length() : UinGeneratorConstant.ID_GROUP_DIGIT_LIMIT * (i + 1);
+					formateGeneratedID.append(generatedID.substring(UinGeneratorConstant.ID_GROUP_DIGIT_LIMIT*i, end).concat("-"));
+				}
+			}catch (StringIndexOutOfBoundsException e){
+				e.getStackTrace();
+			}
 		}
 		return formateGeneratedID.deleteCharAt(formateGeneratedID.length()-1).toString().trim();
 	}

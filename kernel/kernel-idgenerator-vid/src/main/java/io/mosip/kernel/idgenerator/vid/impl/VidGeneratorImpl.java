@@ -131,7 +131,15 @@ public class VidGeneratorImpl implements VidGenerator<String> {
 			}
 
 		}else {
-			new StringBuilder().toString();
+			try {
+				for(int i=0; i <= generatedID.length()/VidPropertyConstant.ID_GROUP_DIGIT_LIMIT; i++)
+				{
+					int end = VidPropertyConstant.ID_GROUP_DIGIT_LIMIT * (i + 1) > generatedID.length() ? generatedID.length() : VidPropertyConstant.ID_GROUP_DIGIT_LIMIT * (i + 1);
+					formateGeneratedID.append(generatedID.substring(VidPropertyConstant.ID_GROUP_DIGIT_LIMIT*i, end).concat("-"));
+				}
+			}catch (StringIndexOutOfBoundsException e){
+				e.getStackTrace();
+			}
 		}
 		return formateGeneratedID.deleteCharAt(formateGeneratedID.length()-1).toString().trim();
 	}
